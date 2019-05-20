@@ -1,0 +1,55 @@
+apply plugin: 'org.jetbrains.kotlin.multiplatform'
+apply plugin: 'kotlinx-serialization'
+apply plugin: 'com.squareup.sqldelight'
+
+ext {
+    stdlib = '1.3.31'
+    ktor = '1.2.0-rc'
+    coroutines = '1.1.1'
+    json = '1.0.0'
+    serialization = '0.11.0'
+    sqldelight = '1.1.3'
+}
+
+kotlin {
+    targets {
+        fromPreset(presets.jvm, 'android')
+    }
+
+    sourceSets {
+        commonMain.dependencies {
+
+            implementation "org.jetbrains.kotlin:kotlin-stdlib-common:$stdlib"
+
+            //It is expected interfaces
+            implementation "io.ktor:ktor-client:$ktor"
+
+            implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutines"
+            implementation "io.ktor:ktor-client-json:$json"
+            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.9.3"
+            implementation "com.squareup.sqldelight:runtime-metadata:$sqldelight"
+        }
+
+        androidMain.dependencies {
+            implementation "org.jetbrains.kotlin:kotlin-stdlib:$stdlib"
+
+            //It is actual platform implementations
+            implementation "io.ktor:ktor-client-json-jvm:$ktor"
+
+            implementation "io.ktor:ktor-client-okhttp:$ktor"
+
+            implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
+            implementation "com.squareup.sqldelight:runtime-jvm:$sqldelight"
+        }
+    }
+}
+
+sqldelight {
+    CoinDatabase {
+        packageName = 'com.merseyside.testsharedproject.data.db'
+    }
+}
+
+configurations {
+    compileClasspath
+}
