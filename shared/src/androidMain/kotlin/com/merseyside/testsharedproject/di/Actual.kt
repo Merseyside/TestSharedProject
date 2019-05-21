@@ -1,0 +1,19 @@
+package com.merseyside.testsharedproject.di
+
+import com.squareup.sqldelight.db.SqlDriver
+import io.ktor.client.engine.HttpClientEngine
+import io.ktor.client.engine.okhttp.OkHttpConfig
+import io.ktor.client.engine.okhttp.OkHttpEngine
+import io.ktor.util.InternalAPI
+import okhttp3.logging.HttpLoggingInterceptor
+
+@InternalAPI
+internal actual fun getPlatformEngine(): HttpClientEngine {
+    return OkHttpEngine(OkHttpConfig().apply {
+        HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+    })
+}
+
+actual var sqlDriver: SqlDriver? = null

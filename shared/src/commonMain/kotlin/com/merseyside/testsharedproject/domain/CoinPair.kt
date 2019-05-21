@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class CoinPair(
     val name: String,
-    val high: Float,
-    val low: Float,
-    val avg: Float)
+    val high: Double,
+    val low: Double,
+    val average: Double)

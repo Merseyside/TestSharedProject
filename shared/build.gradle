@@ -7,8 +7,10 @@ ext {
     ktor = '1.2.0-rc'
     coroutines = '1.1.1'
     json = '1.0.0'
-    serialization = '0.11.0'
+    serialization = '0.9.3'
     sqldelight = '1.1.3'
+    kodein='6.0.0'
+    loggingInterceptor = '3.12.1'
 }
 
 kotlin {
@@ -26,8 +28,11 @@ kotlin {
 
             implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutines"
             implementation "io.ktor:ktor-client-json:$json"
-            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.9.3"
+            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization"
             implementation "com.squareup.sqldelight:runtime-metadata:$sqldelight"
+
+            implementation "org.kodein.di:kodein-di-core:$kodein"
+            implementation "org.kodein.di:kodein-di-erased:$kodein"
         }
 
         androidMain.dependencies {
@@ -35,11 +40,13 @@ kotlin {
 
             //It is actual platform implementations
             implementation "io.ktor:ktor-client-json-jvm:$ktor"
-
             implementation "io.ktor:ktor-client-okhttp:$ktor"
+            implementation "com.squareup.okhttp3:logging-interceptor:$loggingInterceptor"
 
             implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
+
             implementation "com.squareup.sqldelight:runtime-jvm:$sqldelight"
+            implementation "com.squareup.sqldelight:android-driver:$sqldelight"
         }
     }
 }
