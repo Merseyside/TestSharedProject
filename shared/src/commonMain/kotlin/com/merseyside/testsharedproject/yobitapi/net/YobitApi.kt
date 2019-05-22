@@ -2,6 +2,7 @@ package com.merseyside.testsharedproject.yobitapi.net
 
 import com.merseyside.testsharedproject.yobitapi.entity.response.CoinPairResponse
 import io.ktor.client.engine.HttpClientEngine
+import io.ktor.util.InternalAPI
 
 class YobitApi(private val engine: HttpClientEngine) {
 

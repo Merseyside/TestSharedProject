@@ -8,9 +8,10 @@ import com.merseyside.testsharedproject.yobitapi.net.YobitApi
 
 class CoinPairRepositoryImpl(
     private val api: YobitApi,
-    private val coinPairDao: CoinPairDao,
-    private val coinPairMapper: CoinPairDataMapper
+    private val coinPairDao: CoinPairDao
 ) : CoinPairRepository {
+
+    private val coinPairMapper by lazy { CoinPairDataMapper() }
 
     override suspend fun getCoinPair(first: String, second: String) : CoinPair {
         val coinPairResponse = api.fetchCoinPair(first, second)

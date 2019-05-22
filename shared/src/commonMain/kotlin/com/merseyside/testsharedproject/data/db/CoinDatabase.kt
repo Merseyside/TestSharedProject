@@ -16,7 +16,7 @@ fun createDatabase(driver: SqlDriver): CoinDatabase {
         }
 
         override fun encode(value: CoinPairEntity): String {
-            return coinPairDataMapper.transform(value)
+            return coinPairDataMapper.transformToString(value)
         }
 
     }

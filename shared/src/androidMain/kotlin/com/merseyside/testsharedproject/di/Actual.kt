@@ -7,7 +7,7 @@ import io.ktor.client.engine.okhttp.OkHttpEngine
 import io.ktor.util.InternalAPI
 import okhttp3.logging.HttpLoggingInterceptor
 
-@InternalAPI
+@UseExperimental(InternalAPI::class)
 internal actual fun getPlatformEngine(): HttpClientEngine {
     return OkHttpEngine(OkHttpConfig().apply {
         HttpLoggingInterceptor().apply {

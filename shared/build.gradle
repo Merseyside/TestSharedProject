@@ -1,13 +1,25 @@
 apply plugin: 'org.jetbrains.kotlin.multiplatform'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlinx-serialization'
 apply plugin: 'com.squareup.sqldelight'
 
+repositories {
+    google()
+    jcenter()
+    mavenCentral()
+    maven { url "https://kotlin.bintray.com/kotlinx" }
+}
+
+android {
+    compileSdkVersion 28
+}
+
 ext {
     stdlib = '1.3.31'
-    ktor = '1.2.0-rc'
+    ktor = '1.1.3'
     coroutines = '1.1.1'
     json = '1.0.0'
-    serialization = '0.9.3'
+    serialization = '0.11.0'
     sqldelight = '1.1.3'
     kodein='6.0.0'
     loggingInterceptor = '3.12.1'
@@ -15,7 +27,7 @@ ext {
 
 kotlin {
     targets {
-        fromPreset(presets.jvm, 'android')
+        fromPreset(presets.android, 'android')
     }
 
     sourceSets {
@@ -23,13 +35,13 @@ kotlin {
 
             implementation "org.jetbrains.kotlin:kotlin-stdlib-common:$stdlib"
 
-            //It is expected interfaces
-            implementation "io.ktor:ktor-client:$ktor"
-
             implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutines"
-            implementation "io.ktor:ktor-client-json:$json"
-            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization"
-            implementation "com.squareup.sqldelight:runtime-metadata:$sqldelight"
+            //It is expected interfaces
+            implementation "io.ktor:ktor-client-core:$ktor"
+            implementation "io.ktor:ktor-client-json:$ktor"
+            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serialization"
+
+            //implementation "com.squareup.sqldelight:runtime-metadata:$sqldelight"
 
             implementation "org.kodein.di:kodein-di-core:$kodein"
             implementation "org.kodein.di:kodein-di-erased:$kodein"
@@ -39,8 +51,12 @@ kotlin {
             implementation "org.jetbrains.kotlin:kotlin-stdlib:$stdlib"
 
             //It is actual platform implementations
+            implementation "io.ktor:ktor-client-core-jvm:$ktor"
             implementation "io.ktor:ktor-client-json-jvm:$ktor"
             implementation "io.ktor:ktor-client-okhttp:$ktor"
+
+            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization"
+
             implementation "com.squareup.okhttp3:logging-interceptor:$loggingInterceptor"
 
             implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
