@@ -10,9 +10,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 @UseExperimental(InternalAPI::class)
 internal actual fun getPlatformEngine(): HttpClientEngine {
     return OkHttpEngine(OkHttpConfig().apply {
-        HttpLoggingInterceptor().apply {
+        addInterceptor(HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
-        }
+        })
     })
 }
 

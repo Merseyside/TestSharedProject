@@ -1,45 +1,52 @@
 package com.merseyside.testsharedproject.data.db.coinPair
 
+import com.merseyside.testsharedproject.db.model.CoinPairModel
 import com.merseyside.testsharedproject.domain.CoinPair
+import com.merseyside.testsharedproject.utils.Utils
 import com.merseyside.testsharedproject.yobitapi.entity.response.CoinPairResponse
 
 class CoinPairDataMapper {
 
-    fun transform(str: String) : CoinPairEntity {
+    fun transform(str: String) : CoinPairValuesEntity {
         val splits = str.split(",")
 
-        return CoinPairEntity(splits[0], splits[1].toDouble(), splits[2].toDouble(), splits[3].toDouble())
+        return CoinPairValuesEntity(splits[0].toDouble(), splits[1].toDouble(), splits[2].toDouble())
     }
 
-    fun transformToDBEntity(coinPairResponse: CoinPairResponse) : List<Pair<Long, CoinPairEntity>> {
+    fun transformToDBEntity(coinPairResponse: CoinPairResponse) : List<CoinPairModel> {
 
-        val list = ArrayList<Pair<Long, CoinPairEntity>>()
+        val list = ArrayList<CoinPairModel>()
 
-        coinPairResponse.pairs.forEach {
+        coinPairResponse.pairs.forEach { responsePair ->
             list.add(
-                Pair(
-                    it.value.updated,
-                    CoinPairEntity(
-                        name = it.key,
-                        high = it.value.high,
-                        low = it.value.low,
-                        avg = it.value.average
-                    )
-            ))
+                object : CoinPairModel {
+                    override val name: String
+                        get() = responsePair.key
+                    override val pair: CoinPairValuesEntity?
+                        get() = CoinPairValuesEntity(
+                            high = responsePair.value.high,
+                            low = responsePair.value.low,
+                            avg = responsePair.value.average
+                        )
+                    override val updateTime: Long
+                        get() = Utils.getUnixTimeSeconds()
+                }
+            )
         }
+
         return list
     }
 
-    fun transformToString(coinPair: CoinPairEntity) : String {
-        return "${coinPair.name},${coinPair.high},${coinPair.low},${coinPair.avg}"
+    fun transformToString(coinPair: CoinPairValuesEntity) : String {
+        return "${coinPair.high},${coinPair.low},${coinPair.avg}"
     }
 
-    fun transform(coinPairEntity: CoinPairEntity) : CoinPair {
+    fun transform(coinPairEntity: CoinPairModel) : CoinPair {
         return CoinPair(
             name = coinPairEntity.name,
-            high = coinPairEntity.high,
-            low = coinPairEntity.low,
-            average = coinPairEntity.avg
+            high = coinPairEntity.pair?.high ?: 0.0,
+            low = coinPairEntity.pair?.low  ?: 0.0,
+            average = coinPairEntity.pair?.avg ?: 0.0
         )
     }
 }

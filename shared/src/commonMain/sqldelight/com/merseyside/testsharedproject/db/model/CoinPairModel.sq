@@ -1,12 +1,16 @@
-import com.merseyside.testsharedproject.data.db.coinPair.CoinPairEntity;
+import com.merseyside.testsharedproject.data.db.coinPair.CoinPairValuesEntity;
 
 CREATE TABLE CoinPairModel(
-    pair TEXT as CoinPairEntity,
+    name TEXT NOT NULL PRIMARY KEY,
+    pair TEXT as CoinPairValuesEntity,
     updateTime INTEGER NOT NULL
 );
 
 insertItem:
-INSERT OR FAIL INTO CoinPairModel(pair, updateTime) VALUES (?, ?);
+INSERT OR REPLACE INTO CoinPairModel(name, pair, updateTime) VALUES (?, ?, ?);
 
 selectAll:
 SELECT * FROM CoinPairModel;
+
+selectByName:
+SELECT * FROM CoinPairModel WHERE name = ?;

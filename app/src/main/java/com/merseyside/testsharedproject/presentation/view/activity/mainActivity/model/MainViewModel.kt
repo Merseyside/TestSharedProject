@@ -1,13 +1,11 @@
 package com.merseyside.testsharedproject.presentation.view.activity.mainActivity.model
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.databinding.ObservableField
 import com.merseyside.testsharedproject.TestSharedApplication
 import com.merseyside.testsharedproject.domain.interactor.GetCoinPairInteractor
 import com.merseyside.testsharedproject.presentation.base.BaseYobitViewModel
-import kotlinx.coroutines.cancel
 
 class MainViewModel(private val getCoinPairUseCase: GetCoinPairInteractor) : BaseYobitViewModel() {
 
@@ -17,7 +15,7 @@ class MainViewModel(private val getCoinPairUseCase: GetCoinPairInteractor) : Bas
     val secondCoinFieldObservable = ObservableField<String>("usd")
 
     override fun dispose() {
-        getCoinPairUseCase.cancel()
+        getCoinPairUseCase.unsubscribe()
     }
 
     override fun updateLanguage(context: Context) {

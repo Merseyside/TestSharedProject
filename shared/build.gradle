@@ -8,6 +8,7 @@ repositories {
     jcenter()
     mavenCentral()
     maven { url "https://kotlin.bintray.com/kotlinx" }
+
 }
 
 android {
@@ -21,8 +22,10 @@ ext {
     json = '1.0.0'
     serialization = '0.11.0'
     sqldelight = '1.1.3'
-    kodein='6.0.0'
+    kodein ='6.0.0'
     loggingInterceptor = '3.12.1'
+    klock = "1.4.0"
+    webSocketVersion = '1.3.9'
 }
 
 kotlin {
@@ -39,12 +42,15 @@ kotlin {
             //It is expected interfaces
             implementation "io.ktor:ktor-client-core:$ktor"
             implementation "io.ktor:ktor-client-json:$ktor"
+            implementation "io.ktor:ktor-client-logging:$ktor"
             implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serialization"
 
             //implementation "com.squareup.sqldelight:runtime-metadata:$sqldelight"
 
             implementation "org.kodein.di:kodein-di-core:$kodein"
             implementation "org.kodein.di:kodein-di-erased:$kodein"
+
+            implementation "com.soywiz.korlibs.klock:klock:$klock"
         }
 
         androidMain.dependencies {
@@ -54,6 +60,7 @@ kotlin {
             implementation "io.ktor:ktor-client-core-jvm:$ktor"
             implementation "io.ktor:ktor-client-json-jvm:$ktor"
             implementation "io.ktor:ktor-client-okhttp:$ktor"
+            implementation "io.ktor:ktor-client-logging-jvm:$ktor"
 
             implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization"
 
@@ -63,6 +70,8 @@ kotlin {
 
             implementation "com.squareup.sqldelight:runtime-jvm:$sqldelight"
             implementation "com.squareup.sqldelight:android-driver:$sqldelight"
+
+            implementation "org.java-websocket:Java-WebSocket:$webSocketVersion"
         }
     }
 }

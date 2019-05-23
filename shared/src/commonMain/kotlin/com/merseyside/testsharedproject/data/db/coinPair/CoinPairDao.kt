@@ -7,12 +7,17 @@ class CoinPairDao(database: CoinDatabase) {
 
     private val db = database.coinPairModelQueries
 
-    internal fun insert(item: CoinPairEntity, time: Long) {
+    internal fun insert(
+        coinPairModel: CoinPairModel
+    ) {
         db.insertItem(
-            item,
-            time
+            coinPairModel.name,
+            coinPairModel.pair,
+            coinPairModel.updateTime
         )
     }
 
     internal fun select() : List<CoinPairModel> = db.selectAll().executeAsList()
+
+    internal fun selectByPair(name: String) : CoinPairModel? = db.selectByName(name).executeAsOneOrNull()
 }

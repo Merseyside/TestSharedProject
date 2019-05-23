@@ -44,6 +44,8 @@ ext {
     ktxCore = '1.0.2'
     lifecycleExtensions = '2.0.0'
 
+    coroutines = '1.2.1'
+
     materialDesign = '1.1.0-alpha06'
 
     dagger2 = '2.17'
@@ -57,20 +59,21 @@ ext {
     dagger2 = '2.17'
     dagger2Compiler = '2.17'
 
-    mvvmCleanArchLibrary = '1.22'
+    mvvmCleanArchLibrary = '1.23'
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(":shared")
-    implementation project(":library")
+    //implementation project(":library")
 
     implementation "com.squareup.sqldelight:android-driver:$sqlDriver"
 
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleExtensions"
 
-    implementation "io.ktor:ktor-client-okhttp:$ktor"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
 
     implementation "androidx.appcompat:appcompat:$appcompat"
     implementation "androidx.core:core-ktx:$ktxCore"
@@ -84,7 +87,7 @@ dependencies {
     compileOnly 'javax.annotation:jsr250-api:1.0'
 
 
-    //implementation "com.github.Merseyside.mvvm-clean-arch-library:library:$mvvmCleanArchLibrary"
+    implementation "com.github.Merseyside.mvvm-clean-arch-library:library:$mvvmCleanArchLibrary"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'

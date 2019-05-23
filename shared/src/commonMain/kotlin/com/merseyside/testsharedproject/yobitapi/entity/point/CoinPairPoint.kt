@@ -11,7 +11,7 @@ data class CoinPairPoint(
     @SerialName("low")
     val low: Double,
 
-    @SerialName("average")
+    @SerialName("avg")
     val average: Double,
 
     @SerialName("updated")
