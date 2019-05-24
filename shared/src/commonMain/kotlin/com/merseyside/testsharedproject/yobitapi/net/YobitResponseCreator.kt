@@ -47,19 +47,19 @@ class YobitResponseCreator(private val engine: HttpClientEngine) {
 
     private val client by lazy {
         HttpClient(engine) {
-            install(JsonFeature) {
-                serializer = KotlinxSerializer(JSON.nonstrict).apply {
-                    ignoreOutgoingContent()
-                    //register(CoinPairResponse.serializer())
-                }
+//            install(JsonFeature) {
+//                serializer = KotlinxSerializer(JSON.nonstrict).apply {
+//                    ignoreOutgoingContent()
+//                    //register(CoinPairResponse.serializer())
+//                }
+//            }
 
-                defaultRequest {
-                    accept(ContentType.Application.Json)
-                    contentType(ContentType.Application.Json)
-                }
-
-                expectSuccess = true
+            defaultRequest {
+                accept(ContentType.Application.Json)
+                //contentType(ContentType.Application.Json)
             }
+
+            expectSuccess = true
         }
     }
 

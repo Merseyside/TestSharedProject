@@ -9,6 +9,10 @@ import com.merseyside.testsharedproject.utils.Utils
 import com.merseyside.testsharedproject.yobitapi.net.YobitApi
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.seconds
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlin.coroutines.coroutineContext
 
 class CoinPairRepositoryImpl(
     private val api: YobitApi,
@@ -41,6 +45,14 @@ class CoinPairRepositoryImpl(
             Logger.logMsg(TAG, "not expired")
 
             coinPairMapper.transform(dbEntity)
+        }
+    }
+
+    override fun observeNewMsg(): Flow<String> = flow {
+
+        (1..100).forEach {
+            delay(100)
+            emit("Msg number $it")
         }
     }
 }

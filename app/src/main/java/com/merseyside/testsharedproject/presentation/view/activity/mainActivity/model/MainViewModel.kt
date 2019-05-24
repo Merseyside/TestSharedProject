@@ -1,23 +1,55 @@
 package com.merseyside.testsharedproject.presentation.view.activity.mainActivity.model
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.databinding.ObservableField
 import com.merseyside.testsharedproject.TestSharedApplication
 import com.merseyside.testsharedproject.domain.interactor.GetCoinPairInteractor
+import com.merseyside.testsharedproject.domain.interactor.GetMessagesInteractor
 import com.merseyside.testsharedproject.presentation.base.BaseYobitViewModel
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
+import kotlin.coroutines.CoroutineContext
 
-class MainViewModel(private val getCoinPairUseCase: GetCoinPairInteractor) : BaseYobitViewModel() {
+@UseExperimental(FlowPreview::class)
+class MainViewModel(private val getCoinPairUseCase: GetCoinPairInteractor,
+                    private val getMessageUseCase: GetMessagesInteractor
+) : BaseYobitViewModel(), CoroutineScope {
+
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { context, throwable ->
+
+    }
+
+    private val job = Job()
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + coroutineExceptionHandler + job
+
+
 
     private val TAG = javaClass.simpleName
 
     val firstCoinFieldObservable = ObservableField<String>("btc")
     val secondCoinFieldObservable = ObservableField<String>("usd")
 
+    init {
+
+//        val messages = getMessageUseCase.observe(null)
+//
+//        launch {
+//            messages.collect { msg ->
+//
+//            }
+//        }
+    }
+
     override fun dispose() {
         getCoinPairUseCase.unsubscribe()
     }
 
+
+    @ExperimentalCoroutinesApi
     override fun updateLanguage(context: Context) {
 
     }
@@ -42,6 +74,12 @@ class MainViewModel(private val getCoinPairUseCase: GetCoinPairInteractor) : Bas
             },
             params = GetCoinPairInteractor.Params(first, second))
 
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+
+        job.cancel()
     }
 
 }
